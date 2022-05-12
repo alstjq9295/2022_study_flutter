@@ -1,6 +1,6 @@
-# contact
-
-A new Flutter project.
+# Setting Guide
+- [Initial setting](https://alstjq9295.github.io/blog/2022/04/20/1st/)
+- [Error: Don't support null safety](https://alstjq9295.github.io/blog/2022/04/24/1st/)
 
 ## Getting Started
 
