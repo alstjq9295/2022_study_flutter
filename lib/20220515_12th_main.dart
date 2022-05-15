@@ -1,3 +1,4 @@
+// 11강 숙제부터
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,9 +13,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var title = "12강 자식 위젯이 부모 위젯의 state 를 변경하고 싶으면";
   var loopCount = 0;
   var names = ['연락처0', '연락처1', '연락처2', '연락처3', '연락처4', '연락처5', '홍길동'];
   var likeCount = [0, 0, 0, 0, 0, 0, 0];
+  var total = 7;
+
+  addOne() {
+    // total++;
+    setState(() {
+      total++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +32,13 @@ class _MyAppState extends State<MyApp> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(context: context, builder: (context) {
-            return CustomDialog();
+            return CustomDialog(addOne: addOne);
           });
         },
       ),
       appBar: AppBar(
         leading: Icon(Icons.title),
-        title: Text("10강 Dialog/모달창 만드는 법과 context가 뭔지"),
+        title: Text(total.toString() + "|" + title),
         backgroundColor: Color(0xff000000),
       ),
       body: ListView.builder(
@@ -68,7 +78,12 @@ class CustomBottomBar extends StatelessWidget {
 }
 
 class CustomDialog extends StatelessWidget {
-  const CustomDialog({Key? key}) : super(key: key);
+  // const CustomDialog({Key? key, this.addOne}) : super(key: key);
+  // 자체 변수를 생성하려면 const 제거
+  CustomDialog({Key? key, this.addOne}) : super(key: key);
+  // final 변수는 변경 안됨
+  final addOne;
+  var inputData = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -86,21 +101,27 @@ class CustomDialog extends StatelessWidget {
                 flex: 30,
                 child: Text("Contact", textAlign: TextAlign.start, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), )
             ),
-            Flexible(flex: 30, child: TextField()),
-            Flexible(flex: 30, child:
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(onPressed: () { Navigator.pop(context); },
-                  child: Text("Cancel", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text("Ok", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
-                )
-              ],
-            )
-            )
+            // Flexible(flex: 30, child: TextField(controller: inputData,)),
+            Flexible(
+              flex: 30,
+              child: TextField(controller: inputData,)
+            ),
+            Flexible(
+              flex: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(onPressed: () { Navigator.pop(context); },
+                      child: Text("Cancel", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
+                  ),
+                  TextButton(
+                      onPressed: () { addOne(); Navigator.pop(context); },
+                      child: Text("Ok", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
+                  )
+                ],
+              )
+            ),
+            // Flexible(flex: 10,child: Text(title)),
           ],
         ),
       ),
